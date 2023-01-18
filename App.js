@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, Text, View, StatusBar, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
@@ -8,13 +9,12 @@ export default function App() {
     latitudeDelta: 10,
     longitudeDelta: 10,
   };
-
-  const localizacao = {
+  const [localizacao, setLocalizacao] = useState({
     latitude: 37.563936,
     longitude: -116.85123,
     latitudeDelta: 10,
     longitudeDelta: 10,
-  };
+  });
 
   return (
     <>
@@ -28,6 +28,12 @@ export default function App() {
           userInterfaceStyle="dark" //somente IOS
           maxZoomLevel={20}
           minZoomLevel={0}
+          onPress={(event) =>
+            setLocalizacao({
+              latitude: event.nativeEvent.coordinate.latitude,
+              longitude: event.nativeEvent.coordinate.longitude,
+            })
+          }
         >
           <Marker
             draggable
@@ -36,9 +42,7 @@ export default function App() {
             onPress={(event) => {
               console.log(event.nativeEvent);
             }}
-          >
-            <Image source={require("./assets/ghost.png")} />
-          </Marker>
+          />
         </MapView>
       </View>
     </>
