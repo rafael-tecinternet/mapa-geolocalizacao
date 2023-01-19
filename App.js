@@ -4,44 +4,42 @@ import MapView, { Marker } from "react-native-maps";
 
 export default function App() {
   const regiaoInicial = {
-    latitude: -10,
-    longitude: -55,
+    latitude: 40.452107,
+    longitude: 93.742118,
     latitudeDelta: 10,
     longitudeDelta: 10,
   };
   const [localizacao, setLocalizacao] = useState({
-    latitude: 37.563936,
-    longitude: -116.85123,
+    latitude: 40.452107,
+    longitude: 93.742118,
     latitudeDelta: 10,
     longitudeDelta: 10,
   });
+
+  const marcarLocal = (event) => {
+    setLocalizacao({
+      ...localizacao,
+      latitude: event.nativeEvent.coordinate.latitude,
+      longitude: event.nativeEvent.coordinate.longitude,
+    });
+    console.log(localizacao);
+  };
 
   return (
     <>
       <StatusBar />
       <View style={estilos.container}>
         <MapView
+          onPress={marcarLocal}
           style={estilos.mapa}
           initialRegion={regiaoInicial}
           liteMode={false} //somente android
-          mapType="hybrid"
-          userInterfaceStyle="dark" //somente IOS
-          maxZoomLevel={20}
-          minZoomLevel={0}
-          onPress={(event) =>
-            setLocalizacao({
-              latitude: event.nativeEvent.coordinate.latitude,
-              longitude: event.nativeEvent.coordinate.longitude,
-            })
-          }
+          mapType="satellite"
         >
           <Marker
-            draggable
             coordinate={localizacao}
             title="Aqui"
-            onPress={(event) => {
-              console.log(event.nativeEvent);
-            }}
+            onPress={(e) => console.log(e.nativeEvent)}
           />
         </MapView>
       </View>
